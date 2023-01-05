@@ -21,4 +21,7 @@ resource "docker_container" "nodered_container" {
   }
 }
 
-
+output "Ip Address" {
+  value = docker_container.nodered_container.ip_address
+  description = "ip addres of my container"
+}

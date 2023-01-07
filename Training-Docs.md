@@ -17,3 +17,6 @@ OUTPUT:
 terraform console: use to access terraform console
 
 useful links: terraform.io/docs/configuration/outputs.html
+
+Count Argument:
+count = 2

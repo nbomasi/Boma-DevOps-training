@@ -20,3 +20,7 @@ useful links: terraform.io/docs/configuration/outputs.html
 
 Count Argument:
 count = 2
+
+Splat (*) : https://developer.hashicorp.com/terraform/language/expressions#splat-expressions
+
+For expressions:

@@ -23,4 +23,4 @@ count = 2
 
 Splat (*) : https://developer.hashicorp.com/terraform/language/expressions#splat-expressions
 
-For expressions:
+For expressions: 

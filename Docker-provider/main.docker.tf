@@ -14,13 +14,13 @@ resource "docker_image" "nodered_image" {
 }
 
 resource "random_string" "random" {
-  count   = 2
+  count   = 1
   length  = 4
   special = false
 }
 
 resource "docker_container" "nodered_container" {
-  count = 2
+  count = 1
   name  = join(".", ["boma-nodered", random_string.random[count.index].result])
   image = docker_image.nodered_image.image_id
   ports {
@@ -44,7 +44,7 @@ output "container-name" {
 }
 
 output "Ip-Address" {
-  value       = join(" : ", [docker_container.nodered_container[0].ip_address, docker_container.nodered_container[0].ports[0].internal])
+  value       = [for i in docker_container.nodered_container[*] : join(" : ", [i.ip_address], i.ports[*]["external"])]
   description = "ip addres of my container"
 }
 
@@ -53,8 +53,8 @@ output "Ip-Address" {
 #   description = "The name of the container"
 # }
 
-output "Ip-Address2" {
-  value       = join(" : ", [docker_container.nodered_container[1].ip_address, docker_container.nodered_container[1].ports[0].internal])
-  description = "ip addres of my container"
-}
+# output "Ip-Address2" {
+#   value       = join(" : ", [docker_container.nodered_container[1].ip_address, docker_container.nodered_container[1].ports[0].internal])
+#   description = "ip addres of my container"
+# }
 

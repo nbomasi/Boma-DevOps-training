@@ -24,3 +24,11 @@ count = 2
 Splat (*) : https://developer.hashicorp.com/terraform/language/expressions#splat-expressions
 
 For expressions: 
+
+[for i in [1,2,3]: i+1] or  [for i in docker_container.nodered_container[*]: i.name] 
+
+
+Tainting and updating resources
+Tainting resources is a way to force and reply resources
+
+syntax: terraform taint <resource string>

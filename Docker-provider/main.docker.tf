@@ -9,23 +9,38 @@ terraform {
 
 provider "docker" {}
 
+variable "exp_port" {
+  type = number
+  default = 1880
+} # to declare variable
+
+variable "int_port" {
+  type = number 
+  default = 1880
+}
+
+variable "cont_count" {
+  type = number
+  default = 1
+}
+
 resource "docker_image" "nodered_image" {
   name = "nodered/node-red:latest"
 }
 
 resource "random_string" "random" {
-  count   = 1
+  count   = var.cont_count
   length  = 4
   special = false
 }
 
 resource "docker_container" "nodered_container" {
-  count = 1
+  count = var.cont_count
   name  = join(".", ["boma-nodered", random_string.random[count.index].result])
   image = docker_image.nodered_image.image_id
   ports {
-    internal = 1880
-    #external = 1880
+    internal = var.int_port
+    external = var.exp_port # to reference variable
   }
 }
 

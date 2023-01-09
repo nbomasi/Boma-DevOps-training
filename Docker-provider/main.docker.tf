@@ -8,25 +8,34 @@ terraform {
 }
 
 provider "docker" {}
-
-
+# to include local script
+resource "null_resource" "dockervol" {
+  provisioner "local-exec" {
+    command = "mkdir noderedvol/ || true && sudo chown -R 1000:1000 noderedvol/"
+  }
+}
 resource "docker_image" "nodered_image" {
   name = "nodered/node-red:latest"
 }
 
 resource "random_string" "random" {
-  count   = var.cont_count
+  count   = local.cont_count
   length  = 4
   special = false
 }
 
 resource "docker_container" "nodered_container" {
-  count = var.cont_count
+  count = local.cont_count
   name  = join(".", ["boma-nodered", random_string.random[count.index].result])
   image = docker_image.nodered_image.image_id
   ports {
     internal = var.int_port
-    external = var.exp_port # to reference variable
+    external = var.exp_port[count.index] # to reference variable
+  }
+
+  volumes {
+    container_path = "/data"
+    host_path      = "/home/ec2-user/environment/Boma-DevOps-training/Docker-provider/noderedvol"
   }
 }
 

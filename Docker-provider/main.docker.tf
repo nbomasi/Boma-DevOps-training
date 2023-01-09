@@ -15,9 +15,9 @@ resource "null_resource" "dockervol" {
   }
 }
 resource "docker_image" "nodered_image" {
-  name = "nodered/node-red:latest"
+  name = lookup(var.image, var.env)
 }
-
+#"nodered/node-red:latest"
 resource "random_string" "random" {
   count   = local.cont_count
   length  = 4
@@ -30,12 +30,14 @@ resource "docker_container" "nodered_container" {
   image = docker_image.nodered_image.image_id
   ports {
     internal = var.int_port
-    external = var.exp_port[count.index] # to reference variable
+    external = lookup(var.exp_port, var.env)[count.index] # to reference variable
   }
 
+# Introduction of volumes
   volumes {
     container_path = "/data"
-    host_path      = "/home/ec2-user/environment/Boma-DevOps-training/Docker-provider/noderedvol"
+    host_path      = "${path.cwd}/noderedvol" # path.cwd represent the nodered directory path.
+    
   }
 }
 

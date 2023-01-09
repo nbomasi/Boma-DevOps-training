@@ -1,13 +1,35 @@
 # to declare variable
+variable "env" {
+  type = string
+  description = "Env to deploy to"
+  default = "dev"
+}
+
+variable "image" {
+  type = map
+  description = "image for container"
+  default = {
+    dev = "nodered/node-red:latest"
+    prod = "nodered/node-red:latest-minimal"
+  }
+}
 variable "exp_port" {
-  type = list
+  #type = list
+  type = map
 
 #default = 1880
 #sensitive = true # statement to hide sensitive info fron CLI
 # Using validation rule
   validation {
-    condition     = max(var.exp_port...) <= 65535 && min(var.exp_port...) > 0
-    error_message = "The port is expected to be from 1 to 65535."
+    condition     = max(var.exp_port["dev"]...) <= 65535 && min(var.exp_port["dev"]...) >= 1980
+    error_message = "The port is expected to be from 1980 to 65535."
+  
+  }
+  
+  
+    validation {
+    condition     = max(var.exp_port["prod"]...) < 1980 && min(var.exp_port["prod"]...) >= 1880
+    error_message = "The port is expected to be from 1880 to 1979."
   
   }
   }
@@ -26,7 +48,7 @@ variable "int_port" {
 #   default = 3
 # }
 locals {
-    cont_count = length(var.exp_port)
+    cont_count = length(lookup(var.exp_port, var.env))
 }
     
 

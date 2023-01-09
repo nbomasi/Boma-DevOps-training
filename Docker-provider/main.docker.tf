@@ -15,7 +15,7 @@ resource "null_resource" "dockervol" {
   }
 }
 resource "docker_image" "nodered_image" {
-  name = lookup(var.image, var.env)
+  name = (var.image[terraform.workspace])
 }
 #"nodered/node-red:latest"
 resource "random_string" "random" {
@@ -23,14 +23,15 @@ resource "random_string" "random" {
   length  = 4
   special = false
 }
-
+# We need to replace var.env terraform.workspace since we have succesfully created the 2 env environment (dev/prod). Also, we have created workspace.
 resource "docker_container" "nodered_container" {
   count = local.cont_count
-  name  = join(".", ["boma-nodered", random_string.random[count.index].result])
+  name  = join(".", ["boma-nodered", terraform.workspace, random_string.random[count.index].result])
   image = docker_image.nodered_image.image_id
   ports {
     internal = var.int_port
-    external = lookup(var.exp_port, var.env)[count.index] # to reference variable
+    #external = lookup(var.exp_port, terraform.workspace)[count.index] # to reference variable
+    external = var.exp_port[terraform.workspace][count.index]
   }
 
 # Introduction of volumes

@@ -1,9 +1,9 @@
 # to declare variable
-variable "env" {
-  type = string
-  description = "Env to deploy to"
-  default = "dev"
-}
+# variable "env" {
+#   type = string
+#   description = "Env to deploy to"
+#   default = "dev"
+# }
 
 variable "image" {
   type = map
@@ -48,7 +48,7 @@ variable "int_port" {
 #   default = 3
 # }
 locals {
-    cont_count = length(lookup(var.exp_port, var.env))
+    cont_count = length(var.exp_port[terraform.workspace])
 }
     
 

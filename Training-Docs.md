@@ -32,3 +32,9 @@ Tainting and updating resources
 Tainting resources is a way to force and reply resources
 
 syntax: terraform taint <resource string>
+
+Terraform refresh
+
+VARIABLES: https://developer.hashicorp.com/terraform/language/values/variables
+
+variable "exp_port" {}

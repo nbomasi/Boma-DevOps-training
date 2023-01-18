@@ -1,0 +1,10 @@
+nodered.dev.ni1R: 172.17.0.5:1980
+influxdb.dev.Plh2: 172.17.0.3:8186
+influxdb.dev.HmZP: 172.17.0.2:8187
+grafana.dev.anQ7: 172.17.0.4:3001
+grafana.dev.Duv0: 172.17.0.3:3003
+grafana.dev.UWJR: 172.17.0.2:3001
+grafana.dev.Duv0: 172.17.0.4:3003
+grafana.dev.UWJR: 172.17.0.5:3001
+nodered.dev.yZ6h: 172.17.0.3:1980
+influxdb.dev.WZnJ: 172.17.0.2:8186
